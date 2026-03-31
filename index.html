@@ -1,40 +1,854 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stephen Breen | Full-Stack Developer</title>
+  <meta name="description" content="Stephen Breen — Full-Stack Developer. Building modern web applications with passion and precision.">
 
-	<title>Stephen Breen | Awesome Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet">
 
-	<link href="https://fonts.googleapis.com/css?family=Reem+Kufi|Roboto:300" rel="stylesheet">
-	<link href="https://use.fontawesome.com/releases/v5.12.0/css/all.css" rel="stylesheet">
-	<link rel="icon" class="fab fa-stripe-s" type="image/png" />
-	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/styles.css">
-	<!-- <link rel="stylesheet" href="css/themes/indigo-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/green-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/red-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/grey-white.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-indigo.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-blue.css"> -->
-	<!-- <link rel="stylesheet" href="css/themes/white-grey.css"> -->
-	<link rel="stylesheet" href="css/themes/white-red.css">
-	<!-- <link rel="stylesheet" href="css/themes/yellow-black.css"> -->
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── Custom Properties ── */
+    :root {
+      --blue: #0066FF;
+      --blue-light: #3388FF;
+      --coral: #FF6B6B;
+      --coral-light: #FF8E8E;
+      --dark: #0A0E1A;
+      --dark-card: #111827;
+      --dark-surface: #1A2035;
+      --gray-100: #F3F4F6;
+      --gray-300: #D1D5DB;
+      --gray-400: #9CA3AF;
+      --white: #FFFFFF;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--dark);
+      color: var(--gray-100);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 14, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--blue);
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--gray-400);
+      transition: color 0.3s;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── Sections ── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--coral);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      color: var(--gray-400);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .hero-greeting {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      color: var(--coral);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.15s forwards;
+    }
+
+    .hero-name .highlight {
+      background: linear-gradient(135deg, var(--blue), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-weight: 300;
+      color: var(--gray-400);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.3s forwards;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--gray-400);
+      max-width: 550px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.45s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.6s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(0, 102, 255, 0.3);
+    }
+
+    .btn-primary:hover { box-shadow: 0 8px 30px rgba(0, 102, 255, 0.4); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gray-100);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--coral);
+      color: var(--coral);
+    }
+
+    .hero-social {
+      display: flex;
+      gap: 1.25rem;
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease 0.75s forwards;
+    }
+
+    .hero-social a {
+      font-size: 1.35rem;
+      color: var(--gray-400);
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .hero-social a:hover {
+      color: var(--blue);
+      transform: translateY(-3px);
+    }
+
+    /* ── About ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--gray-400);
+      margin-bottom: 1.25rem;
+      line-height: 1.8;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--blue), var(--coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-category {
+      background: var(--dark-card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .skill-category:hover {
+      transform: translateY(-4px);
+      border-color: var(--blue);
+    }
+
+    .skill-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-icon.frontend { background: rgba(0, 102, 255, 0.15); color: var(--blue); }
+    .skill-icon.backend { background: rgba(255, 107, 107, 0.15); color: var(--coral); }
+    .skill-icon.tools { background: rgba(255, 215, 0, 0.15); color: #FFD700; }
+
+    .skill-category h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--gray-300);
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .skill-tag:hover {
+      background: rgba(0, 102, 255, 0.15);
+      color: var(--blue-light);
+    }
+
+    /* ── Projects ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      border-color: var(--blue);
+    }
+
+    .project-banner {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.9;
+    }
+
+    .project-banner.gradient-1 { background: linear-gradient(135deg, #0066FF, #00C9A7); }
+    .project-banner.gradient-2 { background: linear-gradient(135deg, #FF6B6B, #FFD93D); }
+    .project-banner.gradient-3 { background: linear-gradient(135deg, #6C3CE1, #FF6B6B); }
+
+    .project-banner i {
+      position: relative;
+      z-index: 1;
+      color: white;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+    }
+
+    .project-body { padding: 1.5rem; }
+
+    .project-body h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-body p {
+      color: var(--gray-400);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-tech span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(0, 102, 255, 0.1);
+      color: var(--blue-light);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-links a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.3s;
+    }
+
+    .project-links a:hover { color: var(--blue); }
+
+    /* ── Blog ── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .blog-card {
+      background: var(--dark-card);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--coral);
+    }
+
+    .blog-date {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--coral);
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .blog-card p {
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .blog-card .read-more {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: gap 0.3s;
+    }
+
+    .blog-card:hover .read-more { gap: 0.6rem; }
+
+    /* ── Contact ── */
+    .contact-section {
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .contact-section .section-subtitle {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .contact-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--dark-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50px;
+      font-size: 0.95rem;
+      color: var(--gray-300);
+      transition: border-color 0.3s, transform 0.2s, color 0.3s;
+    }
+
+    .contact-chip:hover {
+      border-color: var(--blue);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .contact-chip i { color: var(--blue); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-400);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    footer .heart { color: var(--coral); }
+
+    /* ── Animations ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav { padding: 0.75rem 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.8rem; }
+      section { padding: 4rem 1.25rem; }
+      .hero { padding: 4rem 1.25rem; padding-top: 5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .section-title { font-size: 2rem; }
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .contact-links { flex-direction: column; align-items: center; }
+    }
+  </style>
 </head>
 <body>
-	<main>
-		<div class="intro">Hello, I'm Stpehen!</div>
-		<div class="tagline">Dev | Code Fanatic </div>
-		<!-- Find your icons from here - https://fontawesome.com/icons?d=gallery&s=brands -->
-		<div class="icons-social">
-			<a target="_blank" href="https://github.com/stephenbreen"><i class="fab fa-github"></i></a>
-			<a target="_blank" href="https://twitter.com/stephenbreen"><i class="fab fa-twitter"></i></a>
-			<a target="_blank" href="https://dev.to/stephenbreen"><i class="fab fa-dev"></i></a>
-			<a target="_blank" href="https://stackoverflow.com/story/stephenbreen"><i class="fab fa-stack-overflow"></i></a>
-			<a target="_blank" href="https://www.linkedin.com/in/stephenjbreen"><i class="fab fa-linkedin"></i></a>
-			<a target="_blank" href="https://medium.com/@stephenjbreen"><i class="fab fa-medium"></i></a>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="nav-logo">SB</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <p class="hero-greeting">Hi there, I'm</p>
+    <h1 class="hero-name">Stephen <span class="highlight">Breen</span></h1>
+    <h2 class="hero-title">Full-Stack Developer</h2>
+    <p class="hero-description">
+      I build modern web applications from front to back. Passionate about clean
+      code, great user experiences, and turning complex problems into elegant solutions.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary"><i class="fas fa-code"></i> View My Work</a>
+      <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Get In Touch</a>
     </div>
-	</main>
+    <div class="hero-social">
+      <a target="_blank" href="https://github.com/stephenbreen" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a target="_blank" href="https://twitter.com/stephenbreen" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a target="_blank" href="https://dev.to/stephenbreen" aria-label="Dev.to"><i class="fab fa-dev"></i></a>
+      <a target="_blank" href="https://stackoverflow.com/story/stephenbreen" aria-label="Stack Overflow"><i class="fab fa-stack-overflow"></i></a>
+      <a target="_blank" href="https://www.linkedin.com/in/stephenjbreen" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a target="_blank" href="https://medium.com/@stephenjbreen" aria-label="Medium"><i class="fab fa-medium"></i></a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="fade-in">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Building the web, one stack at a time</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>
+          I'm a full-stack developer who loves building things that live on the web.
+          From crafting pixel-perfect frontends to designing robust APIs and scalable
+          backends, I enjoy working across the entire stack.
+        </p>
+        <p>
+          When I'm not writing code, you'll find me exploring new technologies,
+          contributing to open source, and sharing what I learn through blog posts
+          and talks. I believe great software is built at the intersection of
+          strong engineering and thoughtful design.
+        </p>
+      </div>
+      <div class="about-stats fade-in">
+        <div class="stat-card">
+          <div class="stat-number">5+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Blog Posts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Code Passion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="fade-in">
+      <p class="section-label">Skills</p>
+      <h2 class="section-title">My toolkit</h2>
+      <p class="section-subtitle">Technologies and tools I use to bring ideas to life.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category fade-in">
+        <div class="skill-icon frontend"><i class="fas fa-palette"></i></div>
+        <h3>Frontend</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">Responsive Design</span>
+        </div>
+      </div>
+      <div class="skill-category fade-in">
+        <div class="skill-icon backend"><i class="fas fa-server"></i></div>
+        <h3>Backend</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">GraphQL</span>
+        </div>
+      </div>
+      <div class="skill-category fade-in">
+        <div class="skill-icon tools"><i class="fas fa-tools"></i></div>
+        <h3>Tools & DevOps</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">VS Code</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="fade-in">
+      <p class="section-label">Projects</p>
+      <h2 class="section-title">Things I've built</h2>
+      <p class="section-subtitle">A selection of projects I've worked on recently.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <div class="project-banner gradient-1">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="project-body">
+          <h3>Project Dashboard</h3>
+          <p>A real-time analytics dashboard with interactive charts, live data feeds, and customizable widgets.</p>
+          <div class="project-tech">
+            <span>React</span>
+            <span>Node.js</span>
+            <span>D3.js</span>
+            <span>WebSocket</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-banner gradient-2">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="project-body">
+          <h3>E-Commerce Platform</h3>
+          <p>Full-featured online store with payment processing, inventory management, and admin panel.</p>
+          <div class="project-tech">
+            <span>TypeScript</span>
+            <span>Next.js</span>
+            <span>PostgreSQL</span>
+            <span>Stripe</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <div class="project-banner gradient-3">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="project-body">
+          <h3>AI Content Tool</h3>
+          <p>An intelligent content generation and management tool powered by machine learning APIs.</p>
+          <div class="project-tech">
+            <span>Python</span>
+            <span>FastAPI</span>
+            <span>React</span>
+            <span>OpenAI</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog">
+    <div class="fade-in">
+      <p class="section-label">Blog</p>
+      <h2 class="section-title">Latest writing</h2>
+      <p class="section-subtitle">Thoughts on development, tech, and building things.</p>
+    </div>
+    <div class="blog-grid">
+      <a href="https://medium.com/@stephenjbreen" class="blog-card fade-in">
+        <p class="blog-date">Coming Soon</p>
+        <h3>Building Scalable APIs with Node.js</h3>
+        <p>Lessons learned from scaling a REST API to handle thousands of requests per second.</p>
+        <span class="read-more">Read more <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="https://dev.to/stephenbreen" class="blog-card fade-in">
+        <p class="blog-date">Coming Soon</p>
+        <h3>Why TypeScript Changed How I Code</h3>
+        <p>How adopting TypeScript improved my development workflow and reduced bugs in production.</p>
+        <span class="read-more">Read more <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="https://medium.com/@stephenjbreen" class="blog-card fade-in">
+        <p class="blog-date">Coming Soon</p>
+        <h3>The Art of Clean Code</h3>
+        <p>Practical tips for writing code that your future self (and teammates) will thank you for.</p>
+        <span class="read-more">Read more <i class="fas fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact-section">
+    <div class="fade-in">
+      <p class="section-label">Contact</p>
+      <h2 class="section-title">Let's work together</h2>
+      <p class="section-subtitle">
+        I'm always open to new opportunities, collaborations, and interesting conversations.
+        Feel free to reach out through any of these channels.
+      </p>
+      <div class="contact-links">
+        <a href="https://github.com/stephenbreen" target="_blank" class="contact-chip">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/stephenjbreen" target="_blank" class="contact-chip">
+          <i class="fab fa-linkedin"></i> LinkedIn
+        </a>
+        <a href="https://twitter.com/stephenbreen" target="_blank" class="contact-chip">
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+        <a href="https://dev.to/stephenbreen" target="_blank" class="contact-chip">
+          <i class="fab fa-dev"></i> Dev.to
+        </a>
+        <a href="https://medium.com/@stephenjbreen" target="_blank" class="contact-chip">
+          <i class="fab fa-medium"></i> Medium
+        </a>
+        <a href="https://stackoverflow.com/story/stephenbreen" target="_blank" class="contact-chip">
+          <i class="fab fa-stack-overflow"></i> Stack Overflow
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Built with <span class="heart">&hearts;</span> by Stephen Breen</p>
+  </footer>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
 </body>
 </html>
