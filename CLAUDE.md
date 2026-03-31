@@ -2,63 +2,61 @@
 
 ## Project Overview
 
-This is a **personal portfolio/landing page** for Stephen Breen, hosted via **GitHub Pages** at `stephenbreen.github.io`. It is a minimal static HTML/CSS site with no build system or static site generator.
+Personal portfolio/landing page for Stephen Breen, hosted via **GitHub Pages** at `stephenbreen.github.io`. A self-contained single-page static site with no build system.
 
 ## Repository Structure
 
 ```
 /
-├── index.html          # The entire website (single-page portfolio)
+├── index.html          # The entire website (single-page, self-contained)
 └── CLAUDE.md           # This file
 ```
 
-### Missing Assets
-
-The HTML references CSS files that are **not present** in the repository:
-
-- `css/reset.css` — CSS reset/normalize
-- `css/styles.css` — Main stylesheet
-- `css/themes/white-red.css` — Active color theme
-
-Additional theme files are commented out in the HTML (e.g., `indigo-white.css`, `green-white.css`, `yellow-black.css`).
-
 ## Tech Stack
 
-- **HTML5** — Single `index.html`, no templating
-- **CSS** — External stylesheets (currently missing from repo)
-- **No JavaScript**
-- **No build tools** — No package.json, Gemfile, bundler, or task runner
-- **No static site generator** — Not Jekyll, Hugo, or similar
+- **HTML5** — Single `index.html` with all styles inlined in a `<style>` block
+- **CSS** — Custom properties, CSS Grid, Flexbox, animations, responsive design
+- **JavaScript** — Minimal: only an IntersectionObserver for scroll-triggered fade-in animations
+- **No build tools** — No package.json, bundler, or task runner
+- **No static site generator** — Pure HTML/CSS/JS
 
 ### External CDN Dependencies
 
-- **Google Fonts**: Reem Kufi, Roboto (weight 300)
-- **FontAwesome 5.12.0**: Social media icons (GitHub, Twitter, Dev.to, Stack Overflow, LinkedIn, Medium)
+- **Google Fonts**: Inter (300/400/600/800), JetBrains Mono (400/700)
+- **FontAwesome 5.12.0**: Icons for social links, project cards, and UI elements
+
+## Design System
+
+- **Color palette**: Electric blue (`#0066FF`) + coral (`#FF6B6B`) on dark background (`#0A0E1A`)
+- **Fonts**: Inter for body text, JetBrains Mono for labels and code-style elements
+- **CSS custom properties**: All colors/fonts defined as `--variables` in `:root`
+- **CSS class naming**: kebab-case (e.g., `hero-greeting`, `project-card`, `skill-tag`)
+- **Component pattern**: `section-label` (mono, coral, uppercase) + `section-title` (bold) + `section-subtitle` (gray)
+
+## Page Sections
+
+1. **Nav** — Fixed top bar with logo + anchor links
+2. **Hero** — Name, title, description, CTA buttons, social links (animated entrance)
+3. **About** — Bio text + stat cards grid
+4. **Skills** — Three category cards (Frontend, Backend, Tools) with tech tags
+5. **Projects** — Three project cards with gradient banners, descriptions, tech tags, links
+6. **Blog** — Three blog post cards linking to Medium/Dev.to
+7. **Contact** — Social link chips in pill-style buttons
+8. **Footer** — Simple attribution line
 
 ## Development & Deployment
 
-- **Deployment**: GitHub Pages, served directly from the repository (no build step)
-- **Branching**: `master` is the default/deploy branch
-- **No CI/CD**: No GitHub Actions workflows or automated checks
-- **To preview locally**: Open `index.html` in a browser (note: CSS won't load without the missing files)
-
-## Conventions
-
-- **CSS class names**: kebab-case (e.g., `icons-social`)
-- **Theme files**: Named as `{background}-{accent}.css` (e.g., `white-red.css`)
-- **No JavaScript** is used; keep the site purely HTML/CSS unless explicitly requested
-
-## Known Issues
-
-- **Typo**: The intro text reads "Hello, I'm Stpehen!" — "Stephen" is misspelled
-- **Missing CSS files**: The referenced `css/` directory and stylesheets do not exist in the repo, so the site renders unstyled
-- **Favicon**: Uses a FontAwesome class on a `<link rel="icon">` tag, which doesn't produce a working favicon
+- **Deployment**: GitHub Pages, served directly from the `master` branch (no build step)
+- **To preview locally**: Open `index.html` in a browser — fully self-contained, no server needed
+- **No CI/CD**: No GitHub Actions or automated checks
 
 ## Key Guidelines for AI Assistants
 
-1. This is a very small, simple project — avoid over-engineering changes
-2. Do not introduce build tools, frameworks, or dependencies without explicit request
-3. Keep the site static HTML/CSS; do not add JavaScript unless asked
-4. Any new CSS should follow the existing kebab-case naming convention
-5. Test changes by verifying valid HTML structure (no local server required)
-6. The `master` branch deploys directly to GitHub Pages — be careful with pushes
+1. All styles are inlined in the `<style>` block — do not create separate CSS files unless asked
+2. Use CSS custom properties (`var(--blue)`, etc.) for colors — do not hardcode hex values
+3. Follow the existing component pattern for new sections (label + title + subtitle + content grid)
+4. New cards/elements should include `class="fade-in"` for scroll animation
+5. Keep hover effects consistent: `translateY(-4px)` for cards, `translateY(-2px)` for buttons
+6. Maintain responsive breakpoints at 768px and 480px
+7. The project and blog cards use placeholder content — update with real data when available
+8. Do not add heavy JS frameworks; the site intentionally uses minimal vanilla JS
