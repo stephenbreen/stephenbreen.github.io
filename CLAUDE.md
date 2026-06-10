@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Personal portfolio/landing page for Stephen Breen, hosted via **GitHub Pages** at `stephenbreen.github.io`. A self-contained single-page static site with no build system.
+Personal portfolio site for Stephen Breen — Lead Architect (Azure · Telematics · Applied AI) — hosted via **GitHub Pages** at `stephenbreen.github.io`. A self-contained single-page static site with no build system. The content is a portfolio-style rendering of his CV: experience is presented as **case studies described by domain, never by employer name** (e.g. "EV Fleet Telemetry Platform", "Financial Services Platform Modernisation").
 
 ## Repository Structure
 
@@ -18,45 +18,61 @@ Personal portfolio/landing page for Stephen Breen, hosted via **GitHub Pages** a
 - **CSS** — Custom properties, CSS Grid, Flexbox, animations, responsive design
 - **JavaScript** — Minimal: only an IntersectionObserver for scroll-triggered fade-in animations
 - **No build tools** — No package.json, bundler, or task runner
-- **No static site generator** — Pure HTML/CSS/JS
+- **Icons** — Inline SVG only (no icon font dependency)
 
 ### External CDN Dependencies
 
-- **Google Fonts**: Inter (300/400/600/800), JetBrains Mono (400/700)
-- **FontAwesome 5.12.0**: Icons for social links, project cards, and UI elements
+- **Google Fonts**: Fraunces (display serif), Archivo (body), IBM Plex Mono (labels/data)
 
-## Design System
+## Design System — "Telemetry / control room"
 
-- **Color palette**: Electric blue (`#0066FF`) + coral (`#FF6B6B`) on dark background (`#0A0E1A`)
-- **Fonts**: Inter for body text, JetBrains Mono for labels and code-style elements
-- **CSS custom properties**: All colors/fonts defined as `--variables` in `:root`
-- **CSS class naming**: kebab-case (e.g., `hero-greeting`, `project-card`, `skill-tag`)
-- **Component pattern**: `section-label` (mono, coral, uppercase) + `section-title` (bold) + `section-subtitle` (gray)
+Dark graphite with an amber signal accent; editorial serif headlines over mono data labels. Cork coordinates (51.8985° N / 8.4756° W) appear as a motif in the hero.
+
+- **Colors** (CSS custom properties in `:root`):
+  - `--ink` `#0E120F` background, `--ink-raised` hover surfaces
+  - `--paper` `#E8E6DC` text, `--paper-dim` muted text
+  - `--amber` `#FFB454` accent, `--signal` `#5BD98A` "live" green (status dot, current role)
+  - `--line` / `--line-soft` hairline borders
+- **Fonts**: `--font-display` Fraunces (headings, big numerals), `--font-body` Archivo, `--font-mono` IBM Plex Mono (uppercase tracked labels via `.mono`)
+- **Background**: fixed faint blueprint grid (`body::before`) + amber corner glow (`body::after`)
+- **Component patterns**:
+  - `section-head` — mono amber index number (`01`–`04`) + Fraunces h2, bottom hairline
+  - `.case` — case-study row: circled number / main copy + `.tag` chips / `dl.case-meta` (Role, Domain, Period)
+  - `.readout` — hero telemetry strip of stat cells
+  - `.timeline` — career trajectory stops (2011 → 2024)
+  - `.cap-grid` — capabilities cells separated by 1px gap lines
+- **Motion**: `rise` keyframe staggered on hero load; `.fade-in` + IntersectionObserver on scroll; `prefers-reduced-motion` honored
+- **Hover**: cards/buttons lift `translateY(-2px)`; tags and links shift to amber
 
 ## Page Sections
 
-1. **Nav** — Fixed top bar with logo + anchor links
-2. **Hero** — Name, title, description, CTA buttons, social links (animated entrance)
-3. **About** — Bio text + stat cards grid
-4. **Skills** — Three category cards (Frontend, Backend, Tools) with tech tags
-5. **Projects** — Three project cards with gradient banners, descriptions, tech tags, links
-6. **Blog** — Three blog post cards linking to Medium/Dev.to
-7. **Contact** — Social link chips in pill-style buttons
-8. **Footer** — Simple attribution line
+1. **Nav** — Fixed top bar, mono links (Work / Capabilities / About / Contact)
+2. **Hero** — Coordinates + status dot, Fraunces headline, role line, description, CTAs, telemetry readout strip
+3. **Work** (`#work`) — Five numbered case studies (no employer names) + career trajectory timeline
+4. **Capabilities** (`#capabilities`) — Six cells: Cloud & Platform, Languages & Frameworks, Data, AI & Tooling, Leadership, Domains
+5. **About** (`#about`) — First-person bio + "Record" aside (location, role, education, status)
+6. **Contact** (`#contact`) — Headline question + email / GitHub / LinkedIn buttons (inline SVG icons)
+7. **Footer** — Copyright + tagline
+
+## Content Rules
+
+- **Never name employers** — experience is framed as projects/domains only (EV fleet, financial services, gov & enterprise consultancy, recruitment SaaS)
+- Source of truth for content is Stephen's CV; update case studies rather than reintroducing a chronological employer list
+- Contact email: stephenjbreen@outlook.com · GitHub: stephenbreen
+- Do not publish phone number or street address
 
 ## Development & Deployment
 
-- **Deployment**: GitHub Pages, served directly from the `master` branch (no build step)
-- **To preview locally**: Open `index.html` in a browser — fully self-contained, no server needed
+- **Deployment**: GitHub Pages, served directly from the default branch (no build step)
+- **To preview locally**: Open `index.html` in a browser — fully self-contained
 - **No CI/CD**: No GitHub Actions or automated checks
 
 ## Key Guidelines for AI Assistants
 
 1. All styles are inlined in the `<style>` block — do not create separate CSS files unless asked
-2. Use CSS custom properties (`var(--blue)`, etc.) for colors — do not hardcode hex values
-3. Follow the existing component pattern for new sections (label + title + subtitle + content grid)
-4. New cards/elements should include `class="fade-in"` for scroll animation
-5. Keep hover effects consistent: `translateY(-4px)` for cards, `translateY(-2px)` for buttons
-6. Maintain responsive breakpoints at 768px and 480px
-7. The project and blog cards use placeholder content — update with real data when available
-8. Do not add heavy JS frameworks; the site intentionally uses minimal vanilla JS
+2. Use CSS custom properties (`var(--amber)`, etc.) — do not hardcode hex values
+3. Follow existing component patterns (`section-head`, `.case`, `.cap-cell`) for new content
+4. New scroll-revealed elements should include `class="fade-in"`
+5. Maintain responsive breakpoints at 900px and 600px
+6. Do not add heavy JS frameworks; the site intentionally uses minimal vanilla JS
+7. Keep icons as inline SVG — do not reintroduce icon-font CDNs
