@@ -1,0 +1,10 @@
+title: Stephen Breen
+email: stephenjbreen@outlook.com
+description: "Tools for D&D tables and terminals, from Cork, Ireland."
+url: "https://stephenbreen.github.io"
+permalink: /writing/:title/
+markdown: kramdown
+exclude:
+  - CLAUDE.md
+  - Gemfile
+  - Gemfile.lock

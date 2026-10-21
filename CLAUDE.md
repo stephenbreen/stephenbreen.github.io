@@ -2,77 +2,105 @@
 
 ## Project Overview
 
-Personal portfolio site for Stephen Breen — Lead Architect (Azure · Telematics · Applied AI) — hosted via **GitHub Pages** at `stephenbreen.github.io`. A self-contained single-page static site with no build system. The content is a portfolio-style rendering of his CV: experience is presented as **case studies described by domain, never by employer name** (e.g. "EV Fleet Telemetry Platform", "Financial Services Platform Modernisation").
+Personal site and blog for Stephen Breen, live at **https://stephenbreen.github.io**.
+Hosted on GitHub Pages, built by Jekyll **on GitHub's side** — no local build step,
+no theme, no plugins. Pushing to `master` deploys in about a minute.
+
+The design philosophy is a deliberate counterweight to AI-generated portfolios:
+**plain page, one accent, a pinch of terminal.** Typography-led, under-designed,
+warm paper background. No dark mode, no cards, no stat strips, no status dots,
+no fade-in animations, no numbered sections. Do not re-introduce the old
+"telemetry control room" aesthetic — that was the AI look we replaced.
 
 ## Repository Structure
 
 ```
 /
-├── index.html          # The entire website (single-page, self-contained)
+├── index.html          # Homepage (standalone HTML, no layout — uses Liquid for the post list)
+├── blog.html           # Writing index → served at /writing/
+├── assets/style.css    # The one stylesheet, shared by all pages
+├── _config.yml         # Jekyll config (title, permalink style, kramdown)
+├── _layouts/
+│   ├── default.html    # Page skeleton: head, nav, footer
+│   └── post.html       # Post wrapper (uses default)
+├── _posts/             # Blog posts, one markdown file per post
 └── CLAUDE.md           # This file
 ```
 
-## Tech Stack
+## Design System — "plain page, terminal pinch"
 
-- **HTML5** — Single `index.html` with all styles inlined in a `<style>` block
-- **CSS** — Custom properties, CSS Grid, Flexbox, animations, responsive design
-- **JavaScript** — Minimal: only an IntersectionObserver for scroll-triggered fade-in animations
-- **No build tools** — No package.json, bundler, or task runner
-- **Icons** — Inline SVG only (no icon font dependency)
-
-### External CDN Dependencies
-
-- **Google Fonts**: Fraunces (display serif), Archivo (body), IBM Plex Mono (labels/data)
-
-## Design System — "Telemetry / control room"
-
-Dark graphite with an amber signal accent; editorial serif headlines over mono data labels. Cork coordinates (51.8985° N / 8.4756° W) appear as a motif in the hero.
-
-- **Colors** (CSS custom properties in `:root`):
-  - `--ink` `#0E120F` background, `--ink-raised` hover surfaces
-  - `--paper` `#E8E6DC` text, `--paper-dim` muted text
-  - `--amber` `#FFB454` accent, `--signal` `#5BD98A` "live" green (status dot, current role)
-  - `--line` / `--line-soft` hairline borders
-- **Fonts**: `--font-display` Fraunces (headings, big numerals), `--font-body` Archivo, `--font-mono` IBM Plex Mono (uppercase tracked labels via `.mono`)
-- **Background**: fixed faint blueprint grid (`body::before`) + amber corner glow (`body::after`)
-- **Component patterns**:
-  - `section-head` — mono amber index number (`01`–`04`) + Fraunces h2, bottom hairline
-  - `.case` — case-study row: circled number / main copy + `.tag` chips / `dl.case-meta` (Role, Domain, Period)
-  - `.readout` — hero telemetry strip of stat cells
-  - `.timeline` — career trajectory stops (2011 → 2024)
-  - `.cap-grid` — capabilities cells separated by 1px gap lines
-- **Motion**: `rise` keyframe staggered on hero load; `.fade-in` + IntersectionObserver on scroll; `prefers-reduced-motion` honored
-- **Hover**: cards/buttons lift `translateY(-2px)`; tags and links shift to amber
-
-## Page Sections
-
-1. **Nav** — Fixed top bar, mono links (Work / Capabilities / About / Contact)
-2. **Hero** — Coordinates + status dot, Fraunces headline, role line, description, CTAs, telemetry readout strip
-3. **Work** (`#work`) — Five numbered case studies (no employer names) + career trajectory timeline
-4. **Capabilities** (`#capabilities`) — Six cells: Cloud & Platform, Languages & Frameworks, Data, AI & Tooling, Leadership, Domains
-5. **About** (`#about`) — First-person bio + "Record" aside (location, role, education, status)
-6. **Contact** (`#contact`) — Headline question + email / GitHub / LinkedIn buttons (inline SVG icons)
-7. **Footer** — Copyright + tagline
+- **Colors** (CSS custom properties in `assets/style.css`):
+  `--paper #F5F1E6` background · `--ink #26221A` text · `--ink-soft #4A4437`
+  body text · `--muted #7A7260` · `--line #E1DAC5` hairlines ·
+  `--accent #3D6B4F` moss green, used sparingly (`~` marks, links, focus)
+- **Fonts**: Newsreader (serif, body + headings), JetBrains Mono (labels and
+  terminal touches) via Google Fonts
+- **Layout**: single column, 720px wrap, body 1.1rem / line-height 1.75
+- **The pinch** (keep it to these, don't add more):
+  - Section headers styled as terminal paths: `~/made`, `~/writing` (mono, `~` green)
+  - Project names in monospace, like filenames
+  - `$ exit 0` in the footer, `$_` favicon
+- **Component patterns**: `h2.path` sections · `ul.projects > li` project rows
+  (`.proj-head` name + meta, `.proj-desc`) · `ul.posts` writing lists ·
+  `dl.contact` two-column contact block · `.content` post prose
 
 ## Content Rules
 
-- **Never name employers** — experience is framed as projects/domains only (EV fleet, financial services, gov & enterprise consultancy, recruitment SaaS)
-- Source of truth for content is Stephen's CV; update case studies rather than reintroducing a chronological employer list
-- Contact email: stephenjbreen@outlook.com · GitHub: stephenbreen
-- Do not publish phone number or street address
+- Homepage features **public repos only**, in two groups: `at the table`
+  (tabletop tools) and `in the terminal` (CLI/desktop tools). Private or
+  WIP projects stay off until they are shipped and public.
+- The day-job section stays **one paragraph** — no employer names, link out
+  to LinkedIn for the CV version.
+- Turnkeeper has a live demo: https://stephenbreen.github.io/turnkeeper/
+- Contact: stephenjbreen@outlook.com · github.com/stephenbreen ·
+  linkedin.com/in/stephenbreen · corkdnd.com
+- Never publish phone number or street address.
 
-## Development & Deployment
+## Blogging
 
-- **Deployment**: GitHub Pages, served directly from the default branch (no build step)
-- **To preview locally**: Open `index.html` in a browser — fully self-contained
-- **No CI/CD**: No GitHub Actions or automated checks
+To publish a post, add a markdown file to `_posts/` named
+`YYYY-MM-DD-slug.md` with front matter:
+
+```yaml
+---
+layout: post
+title: "The title"
+date: YYYY-MM-DD
+excerpt: "One-line summary (optional)"
+---
+```
+
+URLs follow `_config.yml`: `/writing/<slug>/`. The homepage shows the latest
+3 posts; `blog.html` lists them all. Commit and push to `master` — that's
+the entire publish workflow.
+
+## Liquid Warnings
+
+`index.html`, `blog.html`, and both layouts contain Liquid (`{% %}`, `{{ }}`)
+processed by Jekyll at deploy time. Do not use double curly braces in page
+content or CSS. If a code snippet in a post needs literal `{{ }}`, wrap it
+in `{% raw %} … {% endraw %}`.
+
+## Local Preview (optional)
+
+The site deploys via GitHub's Jekyll, so a local build isn't required. To
+preview exactly:
+
+```bash
+gem install jekyll
+jekyll serve    # → http://localhost:4000
+```
+
+Opening `index.html` directly in a browser works for styling but will not
+render the Liquid post list or the /writing/ pages.
 
 ## Key Guidelines for AI Assistants
 
-1. All styles are inlined in the `<style>` block — do not create separate CSS files unless asked
-2. Use CSS custom properties (`var(--amber)`, etc.) — do not hardcode hex values
-3. Follow existing component patterns (`section-head`, `.case`, `.cap-cell`) for new content
-4. New scroll-revealed elements should include `class="fade-in"`
-5. Maintain responsive breakpoints at 900px and 600px
-6. Do not add heavy JS frameworks; the site intentionally uses minimal vanilla JS
-7. Keep icons as inline SVG — do not reintroduce icon-font CDNs
+1. One stylesheet: `assets/style.css`. Keep pages thin.
+2. No frameworks, no build tools, no JavaScript beyond what's necessary.
+3. When in doubt, remove. The plain page is the point.
+4. New sections follow the existing patterns (`h2.path`, `ul.projects`,
+   `dl.contact`); new terminal motifs need a good reason.
+5. Icons: inline SVG or none. No icon fonts, no extra CDNs.
+6. Test Liquid changes by pushing to a branch and checking the Pages build,
+   or `jekyll serve` locally.

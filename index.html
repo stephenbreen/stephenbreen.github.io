@@ -1,912 +1,177 @@
+---
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stephen Breen — Lead Architect · Azure · Telematics · Applied AI</title>
-  <meta name="description" content="Stephen Breen — Lead Architect based in Cork, Ireland. 14 years designing and shipping cloud platforms, telematics data pipelines, and applied AI tooling.">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stephen Breen</title>
+  <meta name="description" content="Stephen Breen — tools for D&amp;D tables and terminals, from Cork, Ireland.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23F5F1E6'/%3E%3Ctext x='50' y='74' font-family='monospace' font-size='62' text-anchor='middle' fill='%233D6B4F'%3E$_%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <style>
-    /* ── Reset ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    /* ── Custom Properties ── */
-    :root {
-      --ink: #0E120F;
-      --ink-raised: #141A15;
-      --line: rgba(232, 230, 220, 0.10);
-      --line-soft: rgba(232, 230, 220, 0.06);
-      --paper: #E8E6DC;
-      --paper-dim: #98A092;
-      --amber: #FFB454;
-      --amber-deep: #D98E2B;
-      --signal: #5BD98A;
-      --font-display: 'Fraunces', Georgia, serif;
-      --font-body: 'Archivo', sans-serif;
-      --font-mono: 'IBM Plex Mono', monospace;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      font-weight: 300;
-      background: var(--ink);
-      color: var(--paper);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* Faint blueprint grid over the whole page */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--line-soft) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-      background-size: 72px 72px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Amber glow in the top corner */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -30vh;
-      right: -20vw;
-      width: 70vw;
-      height: 70vh;
-      background: radial-gradient(closest-side, rgba(255, 180, 84, 0.07), transparent);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    main, nav, footer { position: relative; z-index: 1; }
-
-    a { color: inherit; text-decoration: none; }
-    ::selection { background: var(--amber); color: var(--ink); }
-
-    .mono {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--paper-dim);
-    }
-
-    /* ── Navigation ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.1rem 2.5rem;
-      background: rgba(14, 18, 15, 0.82);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line-soft);
-    }
-
-    .nav-logo {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      letter-spacing: 0.14em;
-      color: var(--paper);
-    }
-    .nav-logo span { color: var(--amber); }
-
-    .nav-links { display: flex; gap: 2.25rem; list-style: none; }
-
-    .nav-links a {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--paper-dim);
-      transition: color 0.25s;
-    }
-    .nav-links a:hover { color: var(--amber); }
-
-    /* ── Layout ── */
-    section {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 7rem 2.5rem 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 1.25rem;
-      margin-bottom: 3rem;
-    }
-
-    .section-head .index { color: var(--amber); }
-
-    .section-head h2 {
-      font-family: var(--font-display);
-      font-weight: 400;
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-      line-height: 1.1;
-    }
-
-    /* ── Hero ── */
-    .hero {
-      min-height: 100vh;
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 9rem 2.5rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero-coords {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: rise 0.7s ease 0.1s forwards;
-    }
-
-    .status-dot {
-      flex-shrink: 0;
-      margin-top: 0.45em;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--signal);
-      box-shadow: 0 0 8px var(--signal);
-      animation: pulse 2.4s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.35; }
-    }
-
-    .hero h1 {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(3rem, 9vw, 6.5rem);
-      line-height: 1.02;
-      letter-spacing: -0.01em;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: rise 0.7s ease 0.25s forwards;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      font-weight: 300;
-      color: var(--amber);
-    }
-
-    .hero-role {
-      font-family: var(--font-mono);
-      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--paper-dim);
-      margin-bottom: 2.25rem;
-      opacity: 0;
-      animation: rise 0.7s ease 0.4s forwards;
-    }
-    .hero-role b { color: var(--paper); font-weight: 500; }
-    .hero-role .sep { color: var(--amber); margin: 0 0.5rem; }
-
-    .hero-description {
-      max-width: 620px;
-      font-size: 1.15rem;
-      line-height: 1.8;
-      color: var(--paper-dim);
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: rise 0.7s ease 0.55s forwards;
-    }
-    .hero-description strong { color: var(--paper); font-weight: 500; }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: rise 0.7s ease 0.7s forwards;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.9rem 1.6rem;
-      border: 1px solid var(--line);
-      transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.2s;
-    }
-    .btn:hover { transform: translateY(-2px); }
-
-    .btn-primary {
-      background: var(--amber);
-      border-color: var(--amber);
-      color: var(--ink);
-      font-weight: 500;
-    }
-    .btn-primary:hover { background: var(--amber-deep); border-color: var(--amber-deep); }
-
-    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
-
-    /* Telemetry readout strip */
-    .readout {
-      margin-top: 5rem;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--line);
-      opacity: 0;
-      animation: rise 0.7s ease 0.85s forwards;
-    }
-
-    .readout-cell {
-      padding: 1.4rem 1.6rem;
-      border-right: 1px solid var(--line);
-    }
-    .readout-cell:last-child { border-right: none; }
-
-    .readout-value {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--paper);
-      line-height: 1.2;
-    }
-    .readout-value span { color: var(--amber); }
-
-    /* ── Work / case studies ── */
-    .case {
-      display: grid;
-      grid-template-columns: 88px 1fr 280px;
-      gap: 2.5rem;
-      padding: 3rem 0;
-      border-bottom: 1px solid var(--line-soft);
-      transition: background 0.3s;
-    }
-    .case:hover { background: rgba(255, 180, 84, 0.025); }
-    .case:last-child { border-bottom: none; }
-
-    .case-num {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 300;
-      font-size: 2rem;
-      color: var(--amber);
-      line-height: 1;
-      padding-top: 0.3rem;
-    }
-
-    .case-main h3 {
-      font-family: var(--font-display);
-      font-weight: 400;
-      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-      line-height: 1.2;
-      margin-bottom: 0.9rem;
-    }
-
-    .case-main p {
-      color: var(--paper-dim);
-      max-width: 580px;
-      margin-bottom: 1rem;
-      font-size: 0.98rem;
-    }
-    .case-main p strong { color: var(--paper); font-weight: 500; }
-
-    .case-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1.25rem; }
-
-    .tag {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      color: var(--paper-dim);
-      border: 1px solid var(--line);
-      padding: 0.28rem 0.65rem;
-      transition: color 0.25s, border-color 0.25s;
-    }
-    .case:hover .tag { border-color: var(--line); }
-    .tag:hover { color: var(--amber); border-color: var(--amber); }
-
-    .case-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 1.1rem;
-      padding-top: 0.4rem;
-    }
-
-    .case-meta dt {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--paper-dim);
-      opacity: 0.7;
-      margin-bottom: 0.15rem;
-    }
-
-    .case-meta dd {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
-      color: var(--paper);
-    }
-    .case-meta dd.live { color: var(--signal); }
-
-    /* ── Timeline ── */
-    .timeline {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      margin-top: 1rem;
-      border-top: 1px solid var(--line);
-    }
-
-    .timeline-stop { padding: 1.5rem 1.25rem 0 0; position: relative; }
-
-    .timeline-stop::before {
-      content: '';
-      position: absolute;
-      top: -4px; left: 0;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--paper-dim);
-    }
-    .timeline-stop:last-child::before { background: var(--amber); box-shadow: 0 0 8px rgba(255, 180, 84, 0.6); }
-
-    .timeline-year {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      color: var(--amber);
-      margin-bottom: 0.3rem;
-    }
-
-    .timeline-role {
-      font-size: 0.92rem;
-      font-weight: 500;
-      color: var(--paper);
-      line-height: 1.4;
-    }
-
-    /* ── Capabilities ── */
-    .cap-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--line-soft);
-      border: 1px solid var(--line-soft);
-    }
-
-    .cap-cell {
-      background: var(--ink);
-      padding: 2rem 1.75rem;
-      transition: background 0.3s;
-    }
-    .cap-cell:hover { background: var(--ink-raised); }
-
-    .cap-cell h3 {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--amber);
-      margin-bottom: 1.1rem;
-    }
-
-    .cap-cell ul { list-style: none; }
-
-    .cap-cell li {
-      font-size: 0.92rem;
-      color: var(--paper-dim);
-      padding: 0.3rem 0;
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .cap-cell li:last-child { border-bottom: none; }
-    .cap-cell li strong { color: var(--paper); font-weight: 500; }
-
-    /* ── About ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-text p {
-      color: var(--paper-dim);
-      margin-bottom: 1.4rem;
-      font-size: 1.05rem;
-      line-height: 1.85;
-    }
-    .about-text p strong { color: var(--paper); font-weight: 500; }
-
-    .about-aside {
-      border: 1px solid var(--line);
-      padding: 1.75rem;
-    }
-
-    .about-aside .mono { display: block; margin-bottom: 1rem; color: var(--amber); }
-
-    .about-aside ul { list-style: none; }
-    .about-aside li {
-      font-size: 0.92rem;
-      color: var(--paper-dim);
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--line-soft);
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .about-aside li:last-child { border-bottom: none; }
-    .about-aside li span:last-child {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--paper);
-      text-align: right;
-    }
-
-    /* ── Contact ── */
-    .contact {
-      padding-bottom: 7rem;
-      text-align: left;
-    }
-
-    .contact h2 {
-      font-family: var(--font-display);
-      font-weight: 300;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      line-height: 1.1;
-      max-width: 700px;
-      margin-bottom: 1.5rem;
-    }
-    .contact h2 em { font-style: italic; color: var(--amber); }
-
-    .contact p {
-      color: var(--paper-dim);
-      max-width: 520px;
-      margin-bottom: 2.5rem;
-      font-size: 1.05rem;
-    }
-
-    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .contact-links svg { width: 16px; height: 16px; fill: currentColor; }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--line-soft);
-      padding: 1.75rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      max-width: 1140px;
-      margin: 0 auto;
-    }
-
-    /* ── Animations ── */
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation: none !important; transition: none !important; }
-      .hero-coords, .hero h1, .hero-role, .hero-description, .hero-actions, .readout, .fade-in { opacity: 1; transform: none; }
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .case { grid-template-columns: 56px 1fr; }
-      .case-num { font-size: 1.5rem; }
-      .case-meta {
-        grid-column: 2;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1.75rem;
-        padding-top: 0.5rem;
-      }
-      .timeline { grid-template-columns: repeat(2, 1fr); gap: 1rem 2rem; border-top: none; }
-      .timeline-stop { border-top: 1px solid var(--line); }
-      .cap-grid { grid-template-columns: 1fr 1fr; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .readout { grid-template-columns: 1fr 1fr; }
-      .readout-cell:nth-child(2) { border-right: none; }
-      .readout-cell:nth-child(1), .readout-cell:nth-child(2) { border-bottom: 1px solid var(--line); }
-    }
-
-    @media (max-width: 600px) {
-      nav { padding: 1rem 1.25rem; }
-      .nav-links { gap: 1.1rem; }
-      .nav-links li:nth-child(n+4) { display: none; }
-      section { padding: 5rem 1.25rem 0; }
-      .hero { padding: 7rem 1.25rem 3rem; }
-      .cap-grid { grid-template-columns: 1fr; }
-      .btn { width: 100%; justify-content: center; }
-      footer { padding: 1.5rem 1.25rem; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=JetBrains+Mono:ital,wght@0,400..700;1,400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav>
-    <a href="#" class="nav-logo">SB<span>_</span></a>
-    <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#capabilities">Capabilities</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<header class="site">
+  <div class="wrap">
+    <a href="/" class="wordmark"><span>~</span>/stephenbreen</a>
+    <nav class="site">
+      <a href="/#made">made</a>
+      <a href="/writing/">writing</a>
+      <a href="/#day-job">day job</a>
+      <a href="https://github.com/stephenbreen">github ↗</a>
+    </nav>
+  </div>
+</header>
 
-  <main>
+<main class="wrap">
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-coords">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span class="mono">51.8985° N / 8.4756° W — Cork, Ireland</span>
-      </div>
-      <h1>Architecting platforms that turn <em>live data</em> into working systems.</h1>
-      <p class="hero-role"><b>Stephen Breen</b><span class="sep">//</span>Lead Architect<span class="sep">//</span>Azure · Telematics · Applied AI</p>
-      <p class="hero-description">
-        Fourteen years designing, building, and operating software in regulated
-        industries — financial services, government, and now <strong>EV fleet
-        operations</strong>. Hands-on from the first whiteboard sketch to
-        production rollout.
-      </p>
-      <div class="hero-actions">
-        <a href="#work" class="btn btn-primary">View Work →</a>
-        <a href="#contact" class="btn btn-outline">Get in Touch</a>
-      </div>
+  <div class="hero">
+    <h1>Stephen Breen</h1>
+    <p>
+      I write software in Cork, Ireland — Azure platforms and telematics
+      pipelines by day, tools for D&amp;D tables and terminals the rest of
+      the time. This page is mostly the latter, because that's the stuff
+      you can click.
+    </p>
+    <p>
+      Most of it started at a real game night, or because something in my
+      terminal annoyed me. Usually both.
+    </p>
+  </div>
 
-      <div class="readout" aria-label="Career at a glance">
-        <div class="readout-cell">
-          <p class="mono">Years shipping</p>
-          <p class="readout-value">14<span>+</span></p>
-        </div>
-        <div class="readout-cell">
-          <p class="mono">Industries</p>
-          <p class="readout-value">04</p>
-        </div>
-        <div class="readout-cell">
-          <p class="mono">Core stack</p>
-          <p class="readout-value">Azure <span>/</span> .NET</p>
-        </div>
-        <div class="readout-cell">
-          <p class="mono">Mode</p>
-          <p class="readout-value">Hands-on</p>
-        </div>
-      </div>
-    </section>
+  <section id="made">
+    <h2 class="path"><span>~</span>/made</h2>
 
-    <!-- Work -->
-    <section id="work">
-      <div class="section-head fade-in">
-        <span class="mono index">01</span>
-        <h2>Selected work</h2>
-      </div>
-
-      <article class="case fade-in">
-        <div class="case-num">①</div>
-        <div class="case-main">
-          <h3>EV Fleet Telemetry Platform</h3>
-          <p>
-            Lead architect for <strong>a dedicated EV fleet management
-            platform</strong>. Designed the Azure estate end-to-end — App Services,
-            Functions, Service Bus, Cosmos DB, Key Vault — deployed via Bicep and
-            GitHub Actions.
-          </p>
-          <p>
-            Built the telematics ingestion pipeline that turns live vehicle data into
-            actionable fleet insight, and embedded LLM workflows for natural-language
-            fleet querying and operational summaries. Leading a cross-functional
-            engineering team alongside product and operations.
-          </p>
-          <div class="case-tags">
-            <span class="tag">Azure</span><span class="tag">Bicep</span><span class="tag">Service Bus</span><span class="tag">Cosmos DB</span><span class="tag">C# / .NET</span><span class="tag">LLM Integration</span><span class="tag">GitHub Actions</span>
-          </div>
+    <h3 class="group">at the table</h3>
+    <ul class="projects">
+      <li>
+        <div class="proj-head">
+          <a class="proj-name" href="https://github.com/stephenbreen/turnkeeper">turnkeeper</a>
+          <span class="proj-meta">TypeScript · <a href="https://stephenbreen.github.io/turnkeeper/">try it ↗</a></span>
         </div>
-        <dl class="case-meta">
-          <div><dt>Role</dt><dd>Lead Architect</dd></div>
-          <div><dt>Domain</dt><dd>EV Fleet / Mobility</dd></div>
-          <div><dt>Period</dt><dd class="live">2024 — Present</dd></div>
-        </dl>
-      </article>
-
-      <article class="case fade-in">
-        <div class="case-num">②</div>
-        <div class="case-main">
-          <h3>Financial Services Platform Modernisation</h3>
-          <p>
-            Led development of a customer-facing web application for a global
-            financial services product — <strong>Angular front end over GraphQL
-            APIs</strong>. In parallel, modernised the legacy .NET estate by
-            refactoring towards robust RESTful C# APIs, phasing out the old stack
-            without interrupting service.
-          </p>
-          <div class="case-tags">
-            <span class="tag">Angular</span><span class="tag">GraphQL</span><span class="tag">C# / .NET</span><span class="tag">REST APIs</span><span class="tag">Legacy Migration</span>
-          </div>
-        </div>
-        <dl class="case-meta">
-          <div><dt>Role</dt><dd>Platform Lead</dd></div>
-          <div><dt>Domain</dt><dd>Financial Services</dd></div>
-          <div><dt>Period</dt><dd>2023 — 2024</dd></div>
-        </dl>
-      </article>
-
-      <article class="case fade-in">
-        <div class="case-num">③</div>
-        <div class="case-main">
-          <h3>Solution Design at Consultancy Scale</h3>
-          <p>
-            Ran client design workshops across government and enterprise engagements —
-            solution brainstorming, requirements gathering, and high-level design
-            presentations. <strong>Led the establishment of group-wide development
-            standards</strong>, running technical sessions and reviewing legacy
-            projects against them. Microsoft stack throughout: Azure, .NET, SQL Server.
-          </p>
-          <div class="case-tags">
-            <span class="tag">Azure</span><span class="tag">Solution Design</span><span class="tag">Engineering Standards</span><span class="tag">Client Workshops</span><span class="tag">SQL Server</span>
-          </div>
-        </div>
-        <dl class="case-meta">
-          <div><dt>Role</dt><dd>Solutions Architect</dd></div>
-          <div><dt>Domain</dt><dd>Gov &amp; Enterprise</dd></div>
-          <div><dt>Period</dt><dd>2020 — 2023</dd></div>
-        </dl>
-      </article>
-
-      <article class="case fade-in">
-        <div class="case-num">④</div>
-        <div class="case-main">
-          <h3>SaaS Recruitment Platform</h3>
-          <p>
-            Led a small engineering team on a multi-tenant recruitment product.
-            <strong>Migrated the application to a streamlined CQRS implementation</strong>
-            using Dapper and NHibernate, replacing Entity Framework — then chased down
-            runtime performance with dotTrace, Application Insights, SQL Profiler, and
-            execution-plan analysis.
-          </p>
-          <div class="case-tags">
-            <span class="tag">CQRS</span><span class="tag">Dapper</span><span class="tag">NHibernate</span><span class="tag">Performance Profiling</span><span class="tag">SaaS</span>
-          </div>
-        </div>
-        <dl class="case-meta">
-          <div><dt>Role</dt><dd>Technical Lead</dd></div>
-          <div><dt>Domain</dt><dd>Recruitment / SaaS</dd></div>
-          <div><dt>Period</dt><dd>2017 — 2020</dd></div>
-        </dl>
-      </article>
-
-      <article class="case fade-in">
-        <div class="case-num">⑤</div>
-        <div class="case-main">
-          <h3>Foundations</h3>
-          <p>
-            Full-stack development across .NET, SQL Server, and front-end web
-            technologies — delivering features and integrations for clients in
-            financial services, recruitment, and government-adjacent domains. Grew
-            from junior developer to senior contributor with technical lead
-            responsibilities.
-          </p>
-          <div class="case-tags">
-            <span class="tag">.NET</span><span class="tag">SQL Server</span><span class="tag">Full-Stack</span><span class="tag">Client Delivery</span>
-          </div>
-        </div>
-        <dl class="case-meta">
-          <div><dt>Role</dt><dd>Developer → Senior</dd></div>
-          <div><dt>Domain</dt><dd>Multiple</dd></div>
-          <div><dt>Period</dt><dd>2011 — 2017</dd></div>
-        </dl>
-      </article>
-
-      <!-- Trajectory -->
-      <div class="timeline fade-in" aria-label="Career trajectory">
-        <div class="timeline-stop">
-          <p class="timeline-year">2011</p>
-          <p class="timeline-role">Software Developer</p>
-        </div>
-        <div class="timeline-stop">
-          <p class="timeline-year">2017</p>
-          <p class="timeline-role">Technical Lead</p>
-        </div>
-        <div class="timeline-stop">
-          <p class="timeline-year">2020</p>
-          <p class="timeline-role">Solutions Architect</p>
-        </div>
-        <div class="timeline-stop">
-          <p class="timeline-year">2023</p>
-          <p class="timeline-role">Platform Lead</p>
-        </div>
-        <div class="timeline-stop">
-          <p class="timeline-year">2024</p>
-          <p class="timeline-role">Lead Architect</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Capabilities -->
-    <section id="capabilities">
-      <div class="section-head fade-in">
-        <span class="mono index">02</span>
-        <h2>Capabilities</h2>
-      </div>
-      <div class="cap-grid fade-in">
-        <div class="cap-cell">
-          <h3>Cloud &amp; Platform</h3>
-          <ul>
-            <li><strong>Azure</strong> — App Services, Functions, Service Bus, Event Grid, Key Vault, Storage</li>
-            <li>Terraform · Bicep · IaC patterns</li>
-            <li>Docker · GitHub Actions · Azure DevOps</li>
-            <li>AWS fundamentals</li>
-          </ul>
-        </div>
-        <div class="cap-cell">
-          <h3>Languages &amp; Frameworks</h3>
-          <ul>
-            <li><strong>C#</strong> · .NET / .NET Core · ASP.NET</li>
-            <li>TypeScript · JavaScript · Python</li>
-            <li>Angular · GraphQL · NServiceBus</li>
-            <li>Playwright</li>
-          </ul>
-        </div>
-        <div class="cap-cell">
-          <h3>Data</h3>
-          <ul>
-            <li><strong>SQL Server</strong> · PostgreSQL · Cosmos DB</li>
-            <li>Dapper · NHibernate · Entity Framework</li>
-            <li>CQRS &amp; event-driven patterns</li>
-            <li>Telematics ingestion pipelines</li>
-          </ul>
-        </div>
-        <div class="cap-cell">
-          <h3>AI &amp; Tooling</h3>
-          <ul>
-            <li><strong>LLM integration</strong> &amp; agentic workflows</li>
-            <li>Prompt engineering</li>
-            <li>AI-augmented engineering workflows</li>
-            <li>Natural-language interfaces over operational data</li>
-          </ul>
-        </div>
-        <div class="cap-cell">
-          <h3>Leadership</h3>
-          <ul>
-            <li><strong>Architecture ownership</strong> — whiteboard to production</li>
-            <li>Mentoring &amp; team development</li>
-            <li>Cross-functional facilitation</li>
-            <li>Technical standards · hiring</li>
-          </ul>
-        </div>
-        <div class="cap-cell">
-          <h3>Domains</h3>
-          <ul>
-            <li><strong>EV fleet &amp; telematics</strong></li>
-            <li>Financial services</li>
-            <li>Government &amp; public sector</li>
-            <li>Recruitment / SaaS</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about">
-      <div class="section-head fade-in">
-        <span class="mono index">03</span>
-        <h2>About</h2>
-      </div>
-      <div class="about-grid">
-        <div class="about-text fade-in">
-          <p>
-            I'm a cloud and platform architect based in Cork, Ireland. For fourteen
-            years I've designed, built, and operated systems where reliability isn't
-            optional — financial services, government, and now live vehicle telemetry
-            for EV fleets.
-          </p>
-          <p>
-            My current focus is <strong>Azure platform architecture, telematics data
-            pipelines, and applied AI</strong> — embedding LLM tooling into real
-            operational workflows rather than demos. I work hands-on across the stack:
-            C#/.NET and TypeScript at the front of house, event-driven Azure services
-            and infrastructure-as-code behind it.
-          </p>
-          <p>
-            I'm comfortable leading architecture from the first whiteboard through
-            production rollout — and equally comfortable <strong>mentoring teams to
-            own what they ship</strong>.
-          </p>
-        </div>
-        <aside class="about-aside fade-in">
-          <span class="mono">// Record</span>
-          <ul>
-            <li><span>Location</span><span>Cork, Ireland</span></li>
-            <li><span>Current role</span><span>Lead Architect</span></li>
-            <li><span>Education</span><span>BSc (Hons) Computing, 2011</span></li>
-            <li><span>Focus</span><span>Azure · Telematics · AI</span></li>
-            <li><span>Status</span><span style="color: var(--signal)">● Building</span></li>
-          </ul>
-        </aside>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="contact">
-      <div class="section-head fade-in">
-        <span class="mono index">04</span>
-        <h2>Contact</h2>
-      </div>
-      <div class="fade-in">
-        <h2>Got a platform to build, or a pipeline that needs <em>untangling?</em></h2>
-        <p>
-          I'm always open to interesting problems, good conversations, and the
-          occasional architecture argument.
+        <p class="proj-desc">
+          Initiative tracker for dungeon masters. Two windows, one fight: you
+          drive, the players watch a second screen. Turn timers, lair and
+          legendary actions, injury triggers, a campaign library — and no
+          backend, no accounts.
         </p>
-        <div class="contact-links">
-          <a href="mailto:stephenjbreen@outlook.com" class="btn btn-primary">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.7l-8 5-8-5V6.3l8 5 8-5v2.4z"/></svg>
-            Email Me
-          </a>
-          <a href="https://github.com/stephenbreen" target="_blank" rel="noopener" class="btn btn-outline">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 015.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.26 5.67.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .31.21.67.8.55A10.52 10.52 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
-            GitHub
-          </a>
-          <a href="https://www.linkedin.com/in/stephenbreen" target="_blank" rel="noopener" class="btn btn-outline">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 11 0-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
-            LinkedIn
-          </a>
+      </li>
+      <li>
+        <div class="proj-head">
+          <a class="proj-name" href="https://github.com/stephenbreen/bastion-builder">bastion-builder</a>
+          <span class="proj-meta">TypeScript</span>
         </div>
-      </div>
-    </section>
+        <p class="proj-desc">
+          Stronghold tracker for D&amp;D 5e (2024) — bastion facilities and
+          downtime between adventures, blending the DMG 2024 rules with MCDM's
+          Strongholds &amp; Followers.
+        </p>
+      </li>
+      <li>
+        <div class="proj-head">
+          <a class="proj-name" href="https://corkdnd.com">corkdnd</a>
+          <span class="proj-meta">the club itself</span>
+        </div>
+        <p class="proj-desc">
+          Cork D&amp;D Club — where everything above gets stress-tested across
+          a real table. Come play if you're local.
+        </p>
+      </li>
+    </ul>
 
-  </main>
+    <h3 class="group">in the terminal</h3>
+    <ul class="projects">
+      <li>
+        <div class="proj-head">
+          <a class="proj-name" href="https://github.com/stephenbreen/git-tagger">git-tagger</a>
+          <span class="proj-meta">Rust</span>
+        </div>
+        <p class="proj-desc">
+          A terminal UI for browsing git tags and seeing exactly which commits
+          shipped between them. Built with ratatui and git2.
+        </p>
+      </li>
+      <li>
+        <div class="proj-head">
+          <a class="proj-name" href="https://github.com/stephenbreen/memo">memo</a>
+          <span class="proj-meta">Python</span>
+        </div>
+        <p class="proj-desc">
+          Flashcards for your own shell commands and aliases — for the day you
+          finally learn that shortcut you keep re-googling.
+        </p>
+      </li>
+      <li>
+        <div class="proj-head">
+          <a class="proj-name" href="https://github.com/stephenbreen/ogham-note">ogham-note</a>
+          <span class="proj-meta">Swift</span>
+        </div>
+        <p class="proj-desc">
+          A native macOS Markdown editor with a real Vim engine — modal
+          editing, zero Electron, near-zero latency.
+        </p>
+      </li>
+    </ul>
+  </section>
 
-  <!-- Footer -->
-  <footer>
-    <span class="mono">© 2026 Stephen Breen</span>
-    <span class="mono">Designed &amp; built in Cork — no frameworks harmed</span>
-  </footer>
+  <section id="writing">
+    <h2 class="path"><span>~</span>/writing</h2>
+    <ul class="posts">
+      {% for post in site.posts limit: 3 %}
+      <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+      </li>
+      {% else %}
+      <li><span class="date">nothing published yet</span></li>
+      {% endfor %}
+    </ul>
+    <p class="more"><a href="/writing/">all posts →</a></p>
+  </section>
 
-  <!-- Scroll Animation Script -->
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+  <section id="day-job">
+    <h2 class="path"><span>~</span>/day-job</h2>
+    <div class="prose">
+      <p>
+        Since 2011 I've designed and shipped systems for financial services,
+        government, and now EV fleet operations, where I lead the architecture
+        for a telematics platform on Azure — C#/.NET, event-driven services,
+        infrastructure-as-code, and the occasional LLM where it genuinely earns
+        its keep. The properly formatted version of that story lives on
+        <a href="https://www.linkedin.com/in/stephenbreen">LinkedIn</a>.
+      </p>
+    </div>
+  </section>
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-  </script>
+  <section id="contact">
+    <h2 class="path"><span>~</span>/contact</h2>
+    <div class="prose">
+      <p>
+        Always open to interesting problems, good conversations, and the
+        occasional architecture argument.
+      </p>
+    </div>
+    <dl class="contact">
+      <div><dt>email</dt><dd><a href="mailto:stephenjbreen@outlook.com">stephenjbreen@outlook.com</a></dd></div>
+      <div><dt>github</dt><dd><a href="https://github.com/stephenbreen">@stephenbreen</a></dd></div>
+      <div><dt>linkedin</dt><dd><a href="https://www.linkedin.com/in/stephenbreen">/in/stephenbreen</a></dd></div>
+      <div><dt>club</dt><dd><a href="https://corkdnd.com">corkdnd.com</a></dd></div>
+    </dl>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Stephen Breen · Cork, Ireland</span>
+    <span><b>$</b> exit 0</span>
+  </div>
+</footer>
 
 </body>
 </html>

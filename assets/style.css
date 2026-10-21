@@ -1,0 +1,170 @@
+/* ───────────────────────────────────────────────
+   Stephen Breen — stephenbreen.github.io
+   Plain page, one accent, a pinch of terminal.
+   ─────────────────────────────────────────────── */
+
+:root {
+  --paper: #F5F1E6;
+  --paper-dim: #ECE7D8;
+  --ink: #26221A;
+  --ink-soft: #4A4437;
+  --muted: #7A7260;
+  --line: #E1DAC5;
+  --accent: #3D6B4F;
+  --accent-ink: #2C5140;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { color-scheme: light; scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  line-height: 1.75;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+
+::selection { background: #D8E4D6; }
+
+a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ── header ── */
+header.site { padding: 1.6rem 0; border-bottom: 1px solid var(--line); }
+header.site .wrap {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 1rem; flex-wrap: wrap;
+}
+.wordmark { font-family: var(--mono); font-size: 0.85rem; color: var(--ink); text-decoration: none; }
+.wordmark span { color: var(--accent); }
+nav.site { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+nav.site a { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); text-decoration: none; }
+nav.site a:hover { color: var(--accent-ink); }
+
+/* ── hero ── */
+.hero { padding: 4.5rem 0 1rem; }
+.hero h1 {
+  font-size: clamp(2.7rem, 7vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.4rem;
+}
+.hero p { max-width: 56ch; color: var(--ink-soft); margin-bottom: 1.1rem; }
+
+/* ── sections ── */
+section { margin-top: 4.5rem; }
+
+h2.path {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.4rem;
+}
+h2.path span { color: var(--accent); }
+
+h3.group {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin: 1.7rem 0 0.2rem;
+}
+
+/* ── project list ── */
+ul.projects { list-style: none; }
+ul.projects li { padding: 1.05rem 0; border-bottom: 1px solid var(--line); }
+ul.projects li:last-child { border-bottom: none; }
+.proj-head {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 1rem; flex-wrap: wrap;
+}
+.proj-name {
+  font-family: var(--mono); font-size: 1rem; font-weight: 500;
+  color: var(--ink); text-decoration: none;
+}
+.proj-name:hover { color: var(--accent-ink); }
+.proj-meta { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); white-space: nowrap; }
+.proj-meta a { color: var(--accent-ink); text-decoration: none; }
+.proj-meta a:hover { text-decoration: underline; }
+.proj-desc { color: var(--ink-soft); font-size: 1.02rem; margin-top: 0.15rem; max-width: 60ch; }
+
+/* ── writing list ── */
+ul.posts { list-style: none; }
+ul.posts li {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 1rem;
+  padding: 0.7rem 0; border-bottom: 1px solid var(--line);
+}
+ul.posts li:last-child { border-bottom: none; }
+ul.posts a { color: var(--ink); text-decoration: none; }
+ul.posts a:hover { color: var(--accent-ink); text-decoration: underline; }
+ul.posts time, ul.posts .date { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.more { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); display: inline-block; margin-top: 0.5rem; }
+.more a { color: inherit; text-decoration: none; }
+.more a:hover { color: var(--accent-ink); text-decoration: underline; }
+
+/* ── prose sections ── */
+.prose p { margin-bottom: 1.1rem; color: var(--ink-soft); }
+
+/* ── contact ── */
+dl.contact { font-family: var(--mono); font-size: 0.85rem; margin-top: 0.5rem; }
+dl.contact div { display: flex; gap: 1.2rem; padding: 0.35rem 0; }
+dl.contact dt { color: var(--muted); width: 5.2rem; flex-shrink: 0; }
+dl.contact dd { color: var(--ink); overflow-wrap: anywhere; }
+
+/* ── post page ── */
+article.post header.wrap { padding-top: 4.5rem; padding-bottom: 1.5rem; }
+article.post h1 {
+  font-size: clamp(2rem, 5vw, 2.7rem);
+  font-weight: 500; line-height: 1.12; margin-bottom: 0.8rem;
+}
+article.post time { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+article.post .content { padding-bottom: 4rem; }
+.content h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.25; margin: 2.4rem 0 0.8rem; }
+.content h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 0.6rem; }
+.content p { margin-bottom: 1.15rem; color: var(--ink-soft); }
+.content ul, .content ol { margin: 0 0 1.15rem 1.4rem; color: var(--ink-soft); }
+.content li { margin-bottom: 0.4rem; }
+.content code {
+  font-family: var(--mono); font-size: 0.86em;
+  background: var(--paper-dim); padding: 0.12em 0.35em; border-radius: 3px;
+}
+.content pre {
+  background: var(--paper-dim); border: 1px solid var(--line);
+  border-radius: 5px; padding: 0.9rem 1.1rem; overflow-x: auto; margin-bottom: 1.3rem;
+}
+.content pre code { background: none; padding: 0; font-size: 0.82rem; line-height: 1.6; }
+/* rouge syntax colours — keywords moss, strings sienna, rest ink */
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kt { color: var(--accent-ink); }
+.highlight .s1, .highlight .s2, .highlight .dl { color: #8A5A2B; }
+.highlight .c, .highlight .cm, .highlight .cp { color: var(--muted); }
+.content blockquote { border-left: 3px solid var(--accent); padding-left: 1.1rem; color: var(--muted); margin-bottom: 1.15rem; }
+.content hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+
+/* ── footer ── */
+footer.site { border-top: 1px solid var(--line); margin-top: 4.5rem; padding: 1.4rem 0 2.5rem; }
+footer.site .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+footer.site span { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+footer.site b { color: var(--accent); font-weight: 400; }
+
+@media (max-width: 560px) {
+  header.site .wrap { flex-direction: column; gap: 0.6rem; }
+  .hero { padding-top: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

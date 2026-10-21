@@ -1,0 +1,27 @@
+---
+layout: default
+title: Writing
+permalink: /writing/
+---
+
+<main class="wrap">
+
+  <div class="hero">
+    <h1>Writing</h1>
+    <p>Notes from the table and the terminal.</p>
+  </div>
+
+  <section>
+    <ul class="posts">
+      {% for post in site.posts %}
+      <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+      </li>
+      {% else %}
+      <li><span class="date">nothing published yet</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+</main>
