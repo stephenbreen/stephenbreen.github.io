@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { EMAIL } from '../lib/site';
+
+const groups = ['at the table', 'at the desk', 'in the terminal'] as const;
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<Base>
+  <main class="wrap">
+    <div class="hero">
+      <h1>Stephen Breen</h1>
+      <p>
+        I write software in Cork, Ireland: Azure platforms and telematics
+        pipelines by day, tools for D&amp;D tables and terminals the rest of
+        the time. This page is mostly the latter, because that's the stuff
+        you can click.
+      </p>
+      <p>
+        Most of it started at a real game night, or because something in my
+        terminal annoyed me. Usually both.
+      </p>
+    </div>
+
+    <section id="made">
+      <h2 class="path"><span>~</span>/made</h2>
+      {
+        groups.map((group) => (
+          <>
+            <h3 class="group">{group}</h3>
+            <ul class="projects">
+              {projects
+                .filter((p) => p.data.group === group)
+                .map(({ data: p }) => (
+                  <li>
+                    <div class="proj-head">
+                      {p.url ? (
+                        <a class="proj-name" href={p.url}>{p.name}</a>
+                      ) : (
+                        <span class="proj-name">{p.name}</span>
+                      )}
+                      <span class="proj-meta">
+                        {p.meta}
+                        {p.demo && (
+                          <>
+                            {' · '}
+                            <a href={p.demo}>try it ↗</a>
+                          </>
+                        )}
+                      </span>
+                    </div>
+                    <p class="proj-desc">{p.description}</p>
+                  </li>
+                ))}
+            </ul>
+          </>
+        ))
+      }
+    </section>
+
+    <section id="writing">
+      <h2 class="path"><span>~</span>/writing</h2>
+      <PostList posts={posts} />
+      <p class="more"><a href="/writing/">all posts →</a></p>
+    </section>
+
+    <section id="day-job">
+      <h2 class="path"><span>~</span>/day-job</h2>
+      <div class="prose">
+        <p>
+          Since 2011 I've designed and shipped systems for financial services,
+          government, and now EV fleet operations, where I lead the architecture
+          for a telematics platform on Azure: C#/.NET, event-driven services,
+          infrastructure-as-code, and the occasional LLM where it genuinely earns
+          its keep. The properly formatted version of that story lives on
+          <a href="https://www.linkedin.com/in/stephenbreen">LinkedIn</a>.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="path"><span>~</span>/contact</h2>
+      <div class="prose">
+        <p>
+          Always open to interesting problems, good conversations, and the
+          occasional architecture argument.
+        </p>
+      </div>
+      <dl class="contact">
+        <div><dt>email</dt><dd><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd></div>
+        <div><dt>github</dt><dd><a href="https://github.com/stephenbreen">@stephenbreen</a></dd></div>
+        <div><dt>linkedin</dt><dd><a href="https://www.linkedin.com/in/stephenbreen">/in/stephenbreen</a></dd></div>
+        <div><dt>club</dt><dd><a href="https://corkdnd.com">corkdnd.com</a></dd></div>
+      </dl>
+    </section>
+  </main>
+</Base>

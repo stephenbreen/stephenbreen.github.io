@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "The DM tool with no backend"
 date: 2026-10-13
 excerpt: "Turnkeeper is two browser windows, one fight, and zero servers. The constraint turned out to be the product."

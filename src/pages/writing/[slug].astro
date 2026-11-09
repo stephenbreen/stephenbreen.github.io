@@ -1,0 +1,29 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { formatDate } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: post }));
+}
+
+type Props = CollectionEntry<'posts'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+const { title, date, excerpt } = post.data;
+---
+
+<Base title={title} description={excerpt} ogImage={`/og/${post.id}.png`} type="article">
+  <article class="post">
+    <header class="wrap">
+      <h1>{title}</h1>
+      <time datetime={date.toISOString()}>{formatDate(date, 'long')}</time>
+    </header>
+    <div class="wrap content">
+      <Content />
+      <p class="more"><a href="/writing/">← all posts</a></p>
+    </div>
+  </article>
+</Base>

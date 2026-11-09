@@ -1,5 +1,5 @@
 /* ───────────────────────────────────────────────
-   Stephen Breen — stephenbreen.github.io
+   Stephen Breen — stephenbreen.dev
    Plain page, one accent, a pinch of terminal.
    ─────────────────────────────────────────────── */
 
@@ -12,13 +12,46 @@
   --line: #E1DAC5;
   --accent: #3D6B4F;
   --accent-ink: #2C5140;
-  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
-  --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --sienna: #8A5A2B;
+  --selection: #D8E4D6;
+  --serif: var(--font-newsreader);
+  --mono: var(--font-jetbrains-mono);
+  color-scheme: light;
+}
+
+/* Dark: the same page at night — warm near-black paper, moss lifted for contrast. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1C1A16;
+    --paper-dim: #25221D;
+    --ink: #ECE7D8;
+    --ink-soft: #CFC8B6;
+    --muted: #A39A86;
+    --line: #36322A;
+    --accent: #8DBF9C;
+    --accent-ink: #A9D3B5;
+    --sienna: #D9A46B;
+    --selection: #2E4636;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1C1A16;
+  --paper-dim: #25221D;
+  --ink: #ECE7D8;
+  --ink-soft: #CFC8B6;
+  --muted: #A39A86;
+  --line: #36322A;
+  --accent: #8DBF9C;
+  --accent-ink: #A9D3B5;
+  --sienna: #D9A46B;
+  --selection: #2E4636;
+  color-scheme: dark;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { color-scheme: light; scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--paper);
@@ -32,7 +65,7 @@ body {
 
 .wrap { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
 
-::selection { background: #D8E4D6; }
+::selection { background: var(--selection); }
 
 a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
@@ -49,6 +82,12 @@ header.site .wrap {
 nav.site { display: flex; gap: 1.4rem; flex-wrap: wrap; }
 nav.site a { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); text-decoration: none; }
 nav.site a:hover { color: var(--accent-ink); }
+.theme-toggle {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--muted); display: inline-flex; align-self: center;
+}
+.theme-toggle:hover { color: var(--accent-ink); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 /* ── hero ── */
 .hero { padding: 4.5rem 0 1rem; }
@@ -147,10 +186,20 @@ article.post .content { padding-bottom: 4rem; }
   border-radius: 5px; padding: 0.9rem 1.1rem; overflow-x: auto; margin-bottom: 1.3rem;
 }
 .content pre code { background: none; padding: 0; font-size: 0.82rem; line-height: 1.6; }
-/* rouge syntax colours — keywords moss, strings sienna, rest ink */
-.highlight .k, .highlight .kd, .highlight .kn, .highlight .kt { color: var(--accent-ink); }
-.highlight .s1, .highlight .s2, .highlight .dl { color: #8A5A2B; }
-.highlight .c, .highlight .cm, .highlight .cp { color: var(--muted); }
+/* Shiki css-variables theme — keywords moss, strings sienna, rest ink */
+:root {
+  --astro-code-foreground: var(--ink);
+  --astro-code-background: var(--paper-dim);
+  --astro-code-token-keyword: var(--accent-ink);
+  --astro-code-token-string: var(--sienna);
+  --astro-code-token-string-expression: var(--sienna);
+  --astro-code-token-comment: var(--muted);
+  --astro-code-token-constant: var(--ink);
+  --astro-code-token-function: var(--ink);
+  --astro-code-token-parameter: var(--ink);
+  --astro-code-token-punctuation: var(--ink-soft);
+  --astro-code-token-link: var(--accent-ink);
+}
 .content blockquote { border-left: 3px solid var(--accent); padding-left: 1.1rem; color: var(--muted); margin-bottom: 1.15rem; }
 .content hr { border: none; border-top: 1px solid var(--line); margin: 2.5rem 0; }
 
@@ -159,6 +208,12 @@ footer.site { border-top: 1px solid var(--line); margin-top: 4.5rem; padding: 1.
 footer.site .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 footer.site span { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
 footer.site b { color: var(--accent); font-weight: 400; }
+footer.site a { color: inherit; text-decoration: none; }
+footer.site a:hover { color: var(--accent-ink); text-decoration: underline; }
+
+/* ── 404 ── */
+.path-line { font-family: var(--mono); font-size: 0.9rem; color: var(--muted); }
+.path-line b { color: var(--accent); font-weight: 400; }
 
 @media (max-width: 560px) {
   header.site .wrap { flex-direction: column; gap: 0.6rem; }

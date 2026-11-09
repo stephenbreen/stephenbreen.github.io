@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found">
+  <main class="wrap">
+    <div class="hero">
+      <h1>404</h1>
+      <p class="path-line"><b>$</b> cd {Astro.url.pathname}<br />no such file or directory</p>
+      <p>That page isn't here. It may have moved when the site did.</p>
+      <p class="more"><a href="/">cd ~</a> · <a href="/writing/">ls ~/writing</a></p>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,67 @@
+# Homepage project list. Order within a group is the order here.
+- id: turnkeeper
+  name: turnkeeper
+  group: at the table
+  url: https://github.com/stephenbreen/turnkeeper
+  meta: TypeScript
+  demo: https://stephenbreen.github.io/turnkeeper/
+  description: >-
+    Initiative tracker for dungeon masters. Two windows, one fight: you
+    drive, the players watch a second screen. Turn timers, lair and
+    legendary actions, injury triggers and a campaign library. No
+    backend, no accounts.
+
+- id: bastion-builder
+  name: bastion-builder
+  group: at the table
+  meta: TypeScript · being rebuilt
+  description: >-
+    Stronghold tracker for D&D 5e (2024): bastion facilities and downtime
+    between adventures, blending the DMG 2024 rules with MCDM's
+    Strongholds & Followers. Private while it's rebuilt.
+
+- id: corkdnd
+  name: corkdnd
+  group: at the table
+  url: https://corkdnd.com
+  meta: the club itself
+  description: >-
+    Cork D&D Club, where everything above gets stress-tested across a
+    real table. Come play if you're local.
+
+- id: pgwhy
+  name: pgWhy
+  group: at the desk
+  url: https://github.com/stephenbreen/pgWhy
+  meta: Rust · Tauri
+  description: >-
+    A desktop Postgres client for people who miss SSMS: a dense object
+    explorer, a results grid that scrolls a million rows and lets you
+    edit them, and one-step refresh of a local database from staging.
+
+- id: ogham-note
+  name: ogham-note
+  group: at the desk
+  url: https://github.com/stephenbreen/ogham-note
+  meta: Swift
+  description: >-
+    A native macOS Markdown editor with a real Vim engine: modal editing,
+    zero Electron, near-zero latency.
+
+- id: git-tagger
+  name: git-tagger
+  group: in the terminal
+  url: https://github.com/stephenbreen/git-tagger
+  meta: Rust
+  description: >-
+    A terminal UI for browsing git tags and seeing exactly which commits
+    shipped between them. Built with ratatui and git2.
+
+- id: memo
+  name: memo
+  group: in the terminal
+  url: https://github.com/stephenbreen/memo
+  meta: Python
+  description: >-
+    Flashcards for your own shell commands and aliases — for the day you
+    finally learn that shortcut you keep re-googling.
