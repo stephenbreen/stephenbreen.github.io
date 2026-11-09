@@ -95,7 +95,7 @@ ul.projects li:last-child { border-bottom: none; }
   font-family: var(--mono); font-size: 1rem; font-weight: 500;
   color: var(--ink); text-decoration: none;
 }
-.proj-name:hover { color: var(--accent-ink); }
+a.proj-name:hover { color: var(--accent-ink); }
 .proj-meta { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
 .proj-meta a { color: var(--accent-ink); text-decoration: none; }
 .proj-meta a:hover { text-decoration: underline; }
